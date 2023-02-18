@@ -4,6 +4,7 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/main_navigation/widgets/nav_tab.dart';
 import 'package:tiktok_clone/features/main_navigation/widgets/post_video_button.dart';
+import 'package:tiktok_clone/features/videos/video_timeline_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -45,24 +46,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
     _controller.reverse();
   }
 
-  final screens = [
-    const Center(
-      child: Text('home'),
-    ),
-    const Center(
-      child: Text('search'),
-    ),
-    const Center(
-      child: Text('search'),
-    ),
-    const Center(
-      child: Text('search'),
-    ),
-    const Center(
-      child: Text('search'),
-    ),
-  ];
-
   void _onTap(int index) {
     setState(() {
       _selectedIndex = index;
@@ -84,9 +67,16 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
 
   @override
   Widget build(BuildContext context) {
-    _scale = 1 - _controller.value;
+    _scale = _controller.value + 1;
     return Scaffold(
-        body: screens[_selectedIndex],
+        body: Stack(
+          children: [
+            Offstage(
+              offstage: _selectedIndex != 0,
+              child: const VideoTimelineScreen(),
+            ),
+          ],
+        ),
         bottomNavigationBar: BottomAppBar(
           color: Colors.black,
           child: Padding(

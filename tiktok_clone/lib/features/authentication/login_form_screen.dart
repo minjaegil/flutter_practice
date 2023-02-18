@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
+import 'package:tiktok_clone/features/onboarding/interests_screen.dart';
 
 import '../../constants/gaps.dart';
 
@@ -20,6 +21,12 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const InterestsScreen(),
+            ), (route) {
+          return false; // 이전 route (pages)로 돌아가지 못함
+        });
       }
     }
   }
@@ -56,6 +63,9 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                     ),
                   ),
                   validator: (value) {
+                    if (value != null && value.isEmpty) {
+                      return "Please write your ID";
+                    }
                     return null;
                   },
                   onSaved: (newValue) {
@@ -76,7 +86,10 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                     hintText: "Password",
                   ),
                   validator: (value) {
-                    return "Wrong password";
+                    if (value != null && value.isEmpty) {
+                      return "Please write your password";
+                    }
+                    return null;
                   },
                   onSaved: (newValue) {
                     if (newValue != null) {

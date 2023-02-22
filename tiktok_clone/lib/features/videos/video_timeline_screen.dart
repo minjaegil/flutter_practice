@@ -28,10 +28,14 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   }
 
   void _onVideoFinished() {
-    _pageController.nextPage(
+    // 다음 영상으로 넘어가지 않게
+    return;
+
+    // 다음 영상으로 넘어가게
+    /* _pageController.nextPage(
       duration: _scrollDuration,
       curve: _scrollCurve,
-    );
+    ); */
   }
 
   @override
@@ -40,15 +44,28 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
     super.dispose();
   }
 
+  Future<void> _onRefresh() {
+    return Future.delayed(
+      const Duration(seconds: 3),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      controller: _pageController,
-      scrollDirection: Axis.vertical,
-      onPageChanged: _onPageChanged,
-      itemCount: _itemCount,
-      itemBuilder: (context, index) => VideoPost(
-        onVideoFinished: _onVideoFinished,
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      displacement: 30,
+      edgeOffset: 20,
+      color: Theme.of(context).primaryColor,
+      child: PageView.builder(
+        controller: _pageController,
+        scrollDirection: Axis.vertical,
+        onPageChanged: _onPageChanged,
+        itemCount: _itemCount,
+        itemBuilder: (context, index) => VideoPost(
+          onVideoFinished: _onVideoFinished,
+          index: index,
+        ),
       ),
     );
   }

@@ -69,6 +69,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen>
   Widget build(BuildContext context) {
     _scale = _controller.value + 1;
     return Scaffold(
+        resizeToAvoidBottomInset: false, // 키보드 뜰 때 화면 뭉개지는거 방지.
+        backgroundColor: _selectedIndex == 0 ? Colors.black : Colors.white,
         body: Stack(
           children: [
             Offstage(

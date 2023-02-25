@@ -55,6 +55,10 @@ class _VideoPostState extends State<VideoPost>
         !_isPaused) {
       _videoPlayerController.play();
     }
+    if (info.visibleFraction == 0 && _videoPlayerController.value.isPlaying) {
+      // video가 재생된 상태로 다른 navigator tab을 눌렀을 때.
+      _onTogglePause();
+    }
   }
 
   void _onTogglePause() {
@@ -100,6 +104,7 @@ class _VideoPostState extends State<VideoPost>
       _onTogglePause();
     }
     await showModalBottomSheet(
+      isScrollControlled: true, // bottom sheet의 사이즈를 조절할 수 있게해줌.
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) => const VideoComments(),

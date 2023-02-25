@@ -10,6 +10,7 @@ class NavTab extends StatelessWidget {
     required this.icon,
     required this.onTap,
     required this.selectedIcon,
+    required this.selectedIndex,
   });
 
   final String text;
@@ -17,6 +18,7 @@ class NavTab extends StatelessWidget {
   final IconData icon;
   final IconData selectedIcon;
   final Function onTap;
+  final int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -24,25 +26,28 @@ class NavTab extends StatelessWidget {
       // fills available space so that users can touch icons easier
       child: GestureDetector(
         onTap: () => onTap(),
-        child: AnimatedOpacity(
-          opacity: isSelected ? 1 : 0.6,
-          duration: const Duration(milliseconds: 200),
-          child: Column(
-            mainAxisSize:
-                MainAxisSize.min, // children의 사이즈만큼만 확장 (이거 안하면 화면 전체 차지)
-            children: [
-              FaIcon(
-                isSelected ? selectedIcon : icon,
-                color: Colors.white,
-              ),
-              Gaps.v5,
-              Text(
-                text,
-                style: const TextStyle(
-                  color: Colors.white,
+        child: Container(
+          color: selectedIndex == 0 ? Colors.black : Colors.white,
+          child: AnimatedOpacity(
+            opacity: isSelected ? 1 : 0.6,
+            duration: const Duration(milliseconds: 200),
+            child: Column(
+              mainAxisSize:
+                  MainAxisSize.min, // children의 사이즈만큼만 확장 (이거 안하면 화면 전체 차지)
+              children: [
+                FaIcon(
+                  isSelected ? selectedIcon : icon,
+                  color: selectedIndex == 0 ? Colors.white : Colors.black,
                 ),
-              ),
-            ],
+                Gaps.v5,
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: selectedIndex == 0 ? Colors.white : Colors.black,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
